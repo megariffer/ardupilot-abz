@@ -5450,7 +5450,7 @@ bool GCS_MAVLINK::try_send_message(const enum ap_message id)
 
     case MSG_ABZ_TEST_MESSAGE:
         CHECK_PAYLOAD_SIZE(ABZ_TEST_MESSAGE);
-
+        send_abz_test();
         break;
 
         case MSG_MEMINFO:
