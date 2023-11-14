@@ -617,8 +617,8 @@ void Copter::abz_log_test()
             static_cast<float>(current_loc.lat) / 10000000.0,
             static_cast<float>(current_loc.lng) / 10000000.0,
             current_loc.alt / 100,
-            static_cast<int>((static_cast<float>(current_nav_index - 1) / number_of_commands_in_mission) * 100),
-            current_nav_index,
+            static_cast<int>(static_cast<float>(current_nav_index + 1) / number_of_commands_in_mission * 100),
+            current_nav_index + 1,
             number_of_commands_in_mission);
     }
 }
