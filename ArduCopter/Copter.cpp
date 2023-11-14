@@ -600,9 +600,34 @@ void Copter::three_hz_loop()
     low_alt_avoidance();
 }
 
+void Copter::abz_log_test()
+{
+    if (flightmode != &mode_auto) {
+        return;
+    }
+
+    const uint16_t number_of_commands_in_mission = mode_auto.mission.num_commands();
+
+    if (number_of_commands_in_mission == 0) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "No waypoints are loaded.");
+    } else if (mode_auto.mission.state() == AP_Mission::MISSION_RUNNING) {
+        const uint16_t current_nav_index = mode_auto.mission.get_current_nav_index();
+
+        GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Lat: %f, Lng: %f, Alt: %i. Completed %i%% of mission (%i/%i commands).",
+            static_cast<float>(current_loc.lat) / 10000000.0,
+            static_cast<float>(current_loc.lng) / 10000000.0,
+            current_loc.alt / 100,
+            static_cast<int>((static_cast<float>(current_nav_index - 1) / number_of_commands_in_mission) * 100),
+            current_nav_index,
+            number_of_commands_in_mission);
+    }
+}
+
 // one_hz_loop - runs at 1Hz
 void Copter::one_hz_loop()
 {
+    abz_log_test();
+
     if (should_log(MASK_LOG_ANY)) {
         Log_Write_Data(LogDataID::AP_STATE, ap.value);
     }
