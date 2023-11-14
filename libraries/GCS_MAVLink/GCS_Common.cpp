@@ -2345,6 +2345,11 @@ void GCS_MAVLINK::send_battery2()
 #endif
 }
 
+void GCS_MAVLINK::send_abz_test()
+{
+    mavlink_msg_abz_test_message_send(chan, 1);
+}
+
 /*
   handle a SET_MODE MAVLink message
  */
@@ -5443,7 +5448,12 @@ bool GCS_MAVLINK::try_send_message(const enum ap_message id)
         AP::ahrs().send_ekf_status_report(*this);
         break;
 
-    case MSG_MEMINFO:
+    case MSG_ABZ_TEST_MESSAGE:
+        CHECK_PAYLOAD_SIZE(ABZ_TEST_MESSAGE);
+
+        break;
+
+        case MSG_MEMINFO:
         CHECK_PAYLOAD_SIZE(MEMINFO);
         send_meminfo();
         break;

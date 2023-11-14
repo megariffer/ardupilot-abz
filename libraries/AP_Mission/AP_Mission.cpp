@@ -70,6 +70,8 @@ void AP_Mission::init()
 ///     To-Do: should we validate the mission first and return true/false?
 void AP_Mission::start()
 {
+    gcs().send_message(MSG_ABZ_TEST_MESSAGE);
+
     _flags.state = MISSION_RUNNING;
 
     reset(); // reset mission to the first command, resets jump tracking

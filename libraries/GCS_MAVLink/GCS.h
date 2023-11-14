@@ -297,6 +297,7 @@ public:
     void send_sim_state() const;
     void send_ahrs();
     void send_battery2();
+    void send_abz_test();
 #if AP_OPTICALFLOW_ENABLED
     void send_opticalflow();
 #endif
